@@ -120,10 +120,30 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 230px;
+            height: 240px;
             margin: 18px 0 12px;
             position: relative;
             overflow: visible;
+        }
+
+        /* Extra małe Ogórczaki */
+        .mini-ogorczak {
+            position: absolute;
+            width: 48px;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.4));
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.85;
+        }
+        .mini-1 { top: 10px; left: 8%; animation: miniFloat 3.5s ease-in-out infinite; }
+        .mini-2 { top: 30px; right: 10%; animation: miniFloat 4.2s ease-in-out infinite 0.8s; }
+        .mini-3 { bottom: 20px; left: 18%; animation: miniFloat 3.8s ease-in-out infinite 1.4s; width: 38px; }
+
+        @keyframes miniFloat {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-14px) rotate(4deg); }
         }
 
         .ogorczak {
@@ -445,11 +465,14 @@
     <div class="container">
         <header>
             <h1>Ogórczak & My<br>– Nasza Historia</h1>
-            <p class="subtitle">od 14 czerwca 2026<br>Survival Mode: Love</p>
+            <p class="subtitle">od 11 lipca 2026<br>Survival Mode: Love</p>
 
             <div class="ogorczak-box">
+                <img src="ogorczak.png" class="mini-ogorczak mini-1" alt="">
+                <img src="ogorczak.png" class="mini-ogorczak mini-2" alt="">
+                <img src="ogorczak.png" class="mini-ogorczak mini-3" alt="">
                 <div class="speech-bubble" id="speech">💚</div>
-                <img src="ogorczak.jpg" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij / przesuń myszką!">
+                <img src="ogorczak.png" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij mnie, Marcin!">
                 <div class="click-hearts" id="clickHearts"></div>
             </div>
         </header>
@@ -497,7 +520,9 @@
             <div class="story">
                 <p><strong>Jak to się zaczęło</strong></p>
 
-                <p>Pamiętam naszą pierwszą randkę — 14 czerwca 2026 roku. Poszliśmy wtedy na double date z Anią i jej dziewczyną na warszawskie Prawilony. Niby zwykły wieczór, kilka drinków, trochę śmiechu, a jednak z perspektywy czasu wiem, że to był początek czegoś naprawdę ważnego.</p>
+                <p>Poznaliśmy się na Grindrze 27 czerwca 2026. Zwykłe „hej”, kilka wiadomości, a potem wszystko potoczyło się szybciej, niż ktokolwiek mógł przewidzieć.</p>
+
+                <p>Pamiętam naszą pierwszą randkę. Poszliśmy wtedy na double date z Anią i jej dziewczyną na warszawskie Prawilony. Niby zwykły wieczór, kilka drinków, trochę śmiechu, a jednak z perspektywy czasu wiem, że to był początek czegoś naprawdę ważnego.</p>
 
                 <p>To właśnie wtedy pokazałeś mi, czym jest „woda z mopa”. Do dzisiaj nie wiem, kto wpadł na pomysł, żeby zrobić shota, który wygląda jak coś wyciśniętego z brudnego mopa, ale pamiętam, że wyglądało to absolutnie obrzydliwie. Najlepsze było to, że po spróbowaniu okazało się, że wcale nie jest takie złe. I chyba trochę tak było z nami — z pozoru wszystko mogło wyglądać trochę dziwnie, nieoczywiście, a jednak z czasem okazało się naprawdę dobre.</p>
 
@@ -526,7 +551,7 @@
 
                 <p>I chcę, żeby tak już zostało. Żeby był z nami przez wszystkie nasze kolejne randki, głupie żarty, piękne momenty, trudniejsze chwile i wszystkie historie, które jeszcze napiszemy.</p>
 
-                <p class="ending">Bo 14 czerwca był tylko jednym wieczorem.<br>
+                <p class="ending">Bo tamten wieczór był tylko początkiem.<br>
                 A ja mam nadzieję, że Ty będziesz moją historią już na zawsze. ❤️🥒</p>
             </div>
         </section>
@@ -536,16 +561,20 @@
             <h2>Kamienie Milowe</h2>
             <div class="timeline">
                 <div class="t-item">
-                    <div class="t-date">14.06.2026</div>
-                    <div class="t-text">Pierwsza randka na Prawilonach • woda z mopa i pierwsze prawdziwe „kocham Cię”</div>
+                    <div class="t-date">27.06.2026</div>
+                    <div class="t-text">Poznaliśmy się na Grindrze</div>
+                </div>
+                <div class="t-item">
+                    <div class="t-date">Pierwsza randka</div>
+                    <div class="t-text">Prawilony • woda z mopa i pierwsze prawdziwe „kocham Cię”</div>
+                </div>
+                <div class="t-item">
+                    <div class="t-date">11.07.2026</div>
+                    <div class="t-text">Oficjalny start naszej historii 💚</div>
                 </div>
                 <div class="t-item">
                     <div class="t-date">14.07.2026</div>
                     <div class="t-text">Wypadek (spadek z drzewa) → złamana ręka (do 19.09.2026)</div>
-                </div>
-                <div class="t-item">
-                    <div class="t-date">Dodaj datę</div>
-                    <div class="t-text">Tu wpisz kolejne ważne wydarzenie</div>
                 </div>
             </div>
         </section>
@@ -578,8 +607,8 @@
     </audio>
 
     <script>
-        // Licznik od 14 czerwca 2026, godz. 22:00
-        const startDate = new Date('2026-06-14T22:00:00');
+        // Licznik od 11 lipca 2026
+        const startDate = new Date('2026-07-11T00:00:00');
 
         function updateCounter() {
             const now = new Date();
@@ -628,14 +657,21 @@
         let dir = 1;
         let isBusy = false;
         const phrases = [
-            'Kocham Cię! 💚',
-            'Ogórczak approves',
-            'Woda z mopa? 🥒',
-            'Jesteś hot',
-            'Survival Mode',
-            '❤ ❤ ❤',
-            'Marcin + Ty',
-            'Prawilony forever'
+            'Marcin, znowu tu siedzisz? 😂',
+            'Hej Ty, kliknij mnie w końcu',
+            'Marcin, woda z mopa się nie wypije sama 🥒',
+            'Haha, widzę Cię!',
+            'Marcin, jesteś niebezpiecznie hot',
+            'Nie udawaj, że mnie nie lubisz',
+            'Marcin + Ogórczak forever',
+            'Śmieję się z Ciebie, ale Cię kocham',
+            'Klikaj, lubię jak zwracasz na mnie uwagę',
+            'Marcin, przestań być taki słodki, bo mnie rozwalasz',
+            'Haha dobra, jesteś mój i koniec',
+            'Ogórczak never lies: kocham Cię, Marcin',
+            'Ej, Marcin, co tak serio patrzysz?',
+            'Chodź bliżej, nie gryzę... mocno',
+            'Marcin, masz coś na twarzy... o, to uśmiech'
         ];
 
         // Delikatne chodzenie w lewo-prawo
@@ -698,13 +734,37 @@
             }
         });
 
-        // Losowe gadanie co jakiś czas
-        setInterval(() => {
-            if (isBusy || Math.random() > 0.4) return;
+        // Sam z siebie zaczepia Marcina
+        function tease() {
+            if (isBusy) return;
+            isBusy = true;
+
             speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
             speech.classList.add('show');
-            setTimeout(() => speech.classList.remove('show'), 2200);
-        }, 9000);
+
+            // Mały podskok z zaczepki
+            ogorczak.style.transition = 'transform 0.35s cubic-bezier(0.2, 1.6, 0.3, 1)';
+            ogorczak.style.transform = `translateX(${posX}px) translateY(-28px) scaleX(${dir}) scale(1.1)`;
+
+            setTimeout(() => {
+                ogorczak.style.transition = 'transform 0.25s ease';
+                ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
+                setTimeout(() => {
+                    speech.classList.remove('show');
+                    isBusy = false;
+                }, 1800);
+            }, 400);
+        }
+
+        // Częstsze zaczepianie
+        setInterval(() => {
+            if (Math.random() > 0.35) tease();
+        }, 6500);
+
+        // Czasem jeszcze częściej
+        setInterval(() => {
+            if (Math.random() > 0.7) tease();
+        }, 12000);
 
         // ===== MUZYKA =====
         const musicBtn = document.getElementById('musicBtn');
