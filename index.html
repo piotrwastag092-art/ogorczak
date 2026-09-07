@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ogórczak & My – Nasza Historia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mc-green: #5d9c3e;
+            --mc-dark: #3a6b2a;
+            --mc-dirt: #8b6b4a;
+            --mc-stone: #7a7a7a;
+            --mc-gold: #ffd83d;
+            --mc-pink: #ff7a9c;
+            --mc-soft-pink: #ffb0c4;
+            --panel: #2b3a28;
+            --panel-border: #1a2418;
+            --text: #f0e6d0;
+            --text-dim: #a8b89a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 31px,
+                    rgba(0,0,0,0.03) 32px
+                ),
+                linear-gradient(180deg, #0d1a12 0%, #1a2e1f 40%, #243a28 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            image-rendering: pixelated;
+        }
+
+        /* Pixel grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 16px 16px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image: 
+                radial-gradient(2px 2px at 12% 18%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 28% 55%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(2px 2px at 55% 25%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 72% 78%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 88% 35%, #fff, transparent);
+            background-size: 260px 260px;
+            opacity: 0.35;
+        }
+
+        .floating-hearts {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .floating-hearts span {
+            position: absolute; font-size: 12px; opacity: 0.2;
+            animation: rise 14s linear infinite;
+            image-rendering: pixelated;
+        }
+        @keyframes rise {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.25; }
+            80% { opacity: 0.15; }
+            100% { transform: translateY(-5vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 20px 14px 45px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            text-align: center;
+            padding: 24px 6px 6px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.9rem, 3.8vw, 1.35rem);
+            color: var(--mc-gold);
+            text-shadow: 
+                4px 4px 0 #2a1c00,
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--mc-soft-pink);
+            line-height: 1.6;
+        }
+
+        /* ===== OGÓRCZAK ===== */
+        .ogorczak-box {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 210px;
+            margin: 20px 0 14px;
+            position: relative;
+        }
+
+        .ogorczak {
+            width: 115px;
+            height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.5));
+            animation: idle 2.2s steps(4) infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .ogorczak:hover {
+            filter: drop-shadow(4px 6px 0 rgba(93, 156, 62, 0.6));
+        }
+
+        @keyframes idle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .click-hearts {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* ===== GŁÓWNE ZDJĘCIE ===== */
+        .main-photo-wrap {
+            margin: 8px 0 24px;
+            text-align: center;
+        }
+
+        .main-photo {
+            width: 100%;
+            max-width: 380px;
+            border: 6px solid #3a2a1a;
+            border-image: none;
+            box-shadow: 
+                inset 0 0 0 3px var(--mc-green),
+                6px 6px 0 #1a1208,
+                0 0 0 2px #000;
+            display: block;
+            margin: 0 auto;
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            image-rendering: auto;
+        }
+
+        .photo-caption {
+            margin-top: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--mc-soft-pink);
+        }
+
+        /* ===== LICZNIK ===== */
+        .counter-card {
+            background: var(--panel);
+            border: 4px solid #1a2418;
+            box-shadow: 
+                inset 0 0 0 3px var(--mc-green),
+                5px 5px 0 #0d140c;
+            padding: 22px 12px;
+            margin: 22px 0;
+            text-align: center;
+        }
+
+        .counter-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.58rem;
+            color: var(--mc-soft-pink);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .time-unit {
+            background: #1e2a1c;
+            border: 3px solid #0f160e;
+            box-shadow: inset 2px 2px 0 #000, 2px 2px 0 var(--mc-dark);
+            padding: 10px 6px;
+            min-width: 64px;
+        }
+
+        .time-number {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.05rem;
+            color: var(--mc-gold);
+            display: block;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .time-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.42rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+
+        /* ===== SEKCJE ===== */
+        section {
+            background: var(--panel);
+            border: 4px solid #1a2418;
+            box-shadow: 
+                inset 0 0 0 3px var(--mc-dark),
+                5px 5px 0 #0d140c;
+            padding: 20px 16px;
+            margin: 20px 0;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--mc-gold);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 2px 2px 0 #000;
+            line-height: 1.5;
+        }
+        h2::before {
+            content: '❤';
+            color: var(--mc-pink);
+            font-size: 0.9rem;
+            text-shadow: none;
+        }
+
+        .story {
+            line-height: 1.75;
+            font-size: 1rem;
+            color: #e8dfd0;
+        }
+        .story p { margin-bottom: 13px; }
+        .story .highlight {
+            color: var(--mc-soft-pink);
+            font-weight: 700;
+        }
+        .story .ending {
+            margin-top: 16px;
+            color: var(--mc-gold);
+            font-weight: 600;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 2px;
+            bottom: 2px;
+            width: 4px;
+            background: var(--mc-green);
+            box-shadow: 2px 0 0 #1a2418;
+        }
+        .t-item {
+            position: relative;
+            margin-bottom: 18px;
+            padding-left: 14px;
+        }
+        .t-item:last-child { margin-bottom: 0; }
+        .t-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            background: var(--mc-gold);
+            border: 3px solid #1a2418;
+            box-shadow: 2px 2px 0 #000;
+        }
+        .t-date {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: var(--mc-pink);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        .t-text {
+            font-size: 0.95rem;
+            color: #d8d0c0;
+        }
+
+        /* ===== GALERIA ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+        }
+        .g-item {
+            aspect-ratio: 1;
+            background: #1e2a1c;
+            border: 4px solid #1a2418;
+            box-shadow: inset 0 0 0 2px var(--mc-dark), 3px 3px 0 #0d140c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            text-align: center;
+            padding: 8px;
+            line-height: 1.5;
+            transition: none;
+            overflow: hidden;
+        }
+        .g-item:hover {
+            border-color: var(--mc-pink);
+            box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c;
+        }
+        .g-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hint {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px 10px 6px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.48rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+        footer .heart { color: var(--mc-pink); }
+
+        @media (max-width: 540px) {
+            .time-unit { min-width: 56px; padding: 8px 4px; }
+            .time-number { font-size: 0.9rem; }
+            .ogorczak { width: 95px; }
+            .ogorczak-box { height: 180px; }
+            .main-photo { max-width: 100%; }
+            section { padding: 16px 12px; }
+            h2 { font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="floating-hearts" id="hearts"></div>
+
+    <div class="container">
+        <header>
+            <h1>Ogórczak & My<br>– Nasza Historia</h1>
+            <p class="subtitle">od 14 czerwca 2026<br>Survival Mode: Love</p>
+
+            <div class="ogorczak-box">
+                <img src="ogorczak.jpg" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij mnie!">
+                <div class="click-hearts" id="clickHearts"></div>
+            </div>
+        </header>
+
+        <!-- GŁÓWNE ZDJĘCIE -->
+        <div class="main-photo-wrap">
+            <img src="nasze-zdjecie.jpg" alt="My z Marcinem" class="main-photo">
+            <p class="photo-caption">My 💚</p>
+        </div>
+
+        <!-- LICZNIK -->
+        <div class="counter-card">
+            <div class="counter-label">Jesteśmy razem już...</div>
+            <div class="counter-grid">
+                <div class="time-unit">
+                    <span class="time-number" id="years">0</span>
+                    <div class="time-name">lat</div>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="months">0</span>
+                    <div class="time-name">mies</div>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="days">0</span>
+                    <div class="time-name">dni</div>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="hours">0</span>
+                    <div class="time-name">godz</div>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="minutes">0</span>
+                    <div class="time-name">min</div>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="seconds">0</span>
+                    <div class="time-name">sek</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORIA -->
+        <section>
+            <h2>Nasza Historia</h2>
+            <div class="story">
+                <p><strong>Jak to się zaczęło</strong></p>
+
+                <p>Pamiętam naszą pierwszą randkę — 14 czerwca 2026 roku. Poszliśmy wtedy na double date z Anią i jej dziewczyną na warszawskie Prawilony. Niby zwykły wieczór, kilka drinków, trochę śmiechu, a jednak z perspektywy czasu wiem, że to był początek czegoś naprawdę ważnego.</p>
+
+                <p>To właśnie wtedy pokazałeś mi, czym jest „woda z mopa”. Do dzisiaj nie wiem, kto wpadł na pomysł, żeby zrobić shota, który wygląda jak coś wyciśniętego z brudnego mopa, ale pamiętam, że wyglądało to absolutnie obrzydliwie. Najlepsze było to, że po spróbowaniu okazało się, że wcale nie jest takie złe. I chyba trochę tak było z nami — z pozoru wszystko mogło wyglądać trochę dziwnie, nieoczywiście, a jednak z czasem okazało się naprawdę dobre.</p>
+
+                <p>Potem, po kilku kolejnych shotach, przeszliśmy całą czwórką na główny plac Prawilonów. I tam zacząłem Cię zaczepiać. Prowokować. Tak trochę dla żartów, trochę żeby zobaczyć, co z Ciebie wyjdzie.</p>
+
+                <p>No i wyszło.</p>
+
+                <p>Lekko mnie popchnąłeś i powiedziałeś coś takim stanowczym, męskim głosem, że… no kurwa, mega mi się to spodobało. Było w tym coś, co mnie totalnie przyciągnęło. Pamiętam, że pomyślałem sobie wtedy, że jesteś cholernie hot.</p>
+
+                <p>Ania spojrzała na nas przy tym jak na dwóch idiotów, jakby przez chwilę naprawdę nie wiedziała, czy my się właśnie flirtując szarpiemy, czy zaraz będziemy się bić. A my po prostu mieliśmy swój sposób na poznawanie się.</p>
+
+                <p>I później wydarzyło się coś, czego chyba żadne z nas się nie spodziewało.</p>
+
+                <p>Powiedziałem Ci coś, co wywołało w Twoich oczach prawdziwe łzy. Pamiętam Twoje oszołomienie, ten moment, kiedy chyba sam nie do końca wiedziałeś, co się właśnie wydarzyło.</p>
+
+                <p>A ja po prostu powiedziałem Ci po raz pierwszy:<br>
+                <span class="highlight">„Szczerze Cię kocham.”</span></p>
+
+                <p>I może właśnie wtedy wszystko stało się trochę bardziej prawdziwe.</p>
+
+                <p>Bo od tamtego wieczoru zaczęła się nasza historia. Historia, która miała w sobie wodę z mopa, shoty, zaczepki, śmiech, trochę chaosu i bardzo dużo emocji. Ale przede wszystkim — Ciebie i mnie.</p>
+
+                <p>I gdzieś pomiędzy tym wszystkim pojawił się Ogórczak.</p>
+
+                <p>Bo przecież moim zdaniem, póki jest w nas miłość, to jest z nami Ogórczak. Nie da się go do końca wytłumaczyć, tak samo jak nie da się do końca wytłumaczyć tego, dlaczego akurat Ty i dlaczego akurat ja. Po prostu jest.</p>
+
+                <p>I chcę, żeby tak już zostało. Żeby był z nami przez wszystkie nasze kolejne randki, głupie żarty, piękne momenty, trudniejsze chwile i wszystkie historie, które jeszcze napiszemy.</p>
+
+                <p class="ending">Bo 14 czerwca był tylko jednym wieczorem.<br>
+                A ja mam nadzieję, że Ty będziesz moją historią już na zawsze. ❤️🥒</p>
+            </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section>
+            <h2>Kamienie Milowe</h2>
+            <div class="timeline">
+                <div class="t-item">
+                    <div class="t-date">14.06.2026</div>
+                    <div class="t-text">Pierwsza randka na Prawilonach • woda z mopa i pierwsze prawdziwe „kocham Cię”</div>
+                </div>
+                <div class="t-item">
+                    <div class="t-date">14.07.2026</div>
+                    <div class="t-text">Wypadek (spadek z drzewa) → złamana ręka (do 19.09.2026)</div>
+                </div>
+                <div class="t-item">
+                    <div class="t-date">Dodaj datę</div>
+                    <div class="t-text">Tu wpisz kolejne ważne wydarzenie</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERIA -->
+        <section>
+            <h2>Nasze Wspomnienia</h2>
+            <div class="gallery">
+                <div class="g-item">Dodaj<br>zdjęcie</div>
+                <div class="g-item">Dodaj<br>zdjęcie</div>
+                <div class="g-item">Dodaj<br>zdjęcie</div>
+                <div class="g-item">Dodaj<br>zdjęcie</div>
+            </div>
+            <p class="hint">
+                Żeby dodać zdjęcie: wrzuć plik do repozytorium i zamień tekst na<br>
+                <code style="color:var(--mc-gold);font-size:0.75rem;">&lt;img src="nazwa.jpg" alt="opis"&gt;</code>
+            </p>
+        </section>
+
+        <footer>
+            <p>Zrobione z <span class="heart">❤</span> dla Marcina<br>i Ogórczaka</p>
+            <p style="margin-top: 8px;">Survival Mode: Love</p>
+        </footer>
+    </div>
+
+    <script>
+        // Licznik od 14 czerwca 2026, godz. 22:00
+        const startDate = new Date('2026-06-14T22:00:00');
+
+        function updateCounter() {
+            const now = new Date();
+            let diff = now - startDate;
+
+            if (diff < 0) {
+                ['years','months','days','hours','minutes','seconds'].forEach(id => {
+                    document.getElementById(id).textContent = '0';
+                });
+                return;
+            }
+
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            diff -= years * (1000 * 60 * 60 * 24 * 365.25);
+
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+            diff -= months * (1000 * 60 * 60 * 24 * 30.44);
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff -= days * (1000 * 60 * 60 * 24);
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff -= hours * (1000 * 60 * 60);
+
+            const minutes = Math.floor(diff / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        updateCounter();
+        setInterval(updateCounter, 1000);
+
+        // Kliknięcie w Ogórczaka
+        const ogorczak = document.getElementById('ogorczak');
+        const clickHearts = document.getElementById('clickHearts');
+
+        ogorczak.addEventListener('click', () => {
+            ogorczak.style.animation = 'none';
+            void ogorczak.offsetWidth;
+            ogorczak.style.animation = 'idle 0.3s steps(2) 3';
+
+            for (let i = 0; i < 6; i++) {
+                const heart = document.createElement('span');
+                heart.textContent = ['💚','❤️','💗'][Math.floor(Math.random()*3)];
+                heart.style.position = 'absolute';
+                heart.style.left = (Math.random() * 60 - 30) + 'px';
+                heart.style.fontSize = (14 + Math.random() * 10) + 'px';
+                heart.style.opacity = '1';
+                heart.style.transition = 'all 1s steps(6)';
+                clickHearts.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.transform = `translateY(-70px) scale(1.3)`;
+                    heart.style.opacity = '0';
+                }, 30);
+                setTimeout(() => heart.remove(), 1100);
+            }
+
+            setTimeout(() => {
+                ogorczak.style.animation = 'idle 2.2s steps(4) infinite';
+            }, 700);
+        });
+
+        // Serduszka w tle
+        const heartsContainer = document.getElementById('hearts');
+        const heartSymbols = ['💚', '❤️', '🤍'];
+
+        function spawnHeart() {
+            const heart = document.createElement('span');
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (11 + Math.random() * 6) + 's';
+            heart.style.fontSize = (10 + Math.random() * 8) + 'px';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 18000);
+        }
+
+        setInterval(spawnHeart, 2200);
+        for (let i = 0; i < 4; i++) setTimeout(spawnHeart, i * 600);
+    </script>
+</body>
+</html>
