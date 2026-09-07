@@ -120,9 +120,10 @@
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            height: 210px;
-            margin: 20px 0 14px;
+            height: 230px;
+            margin: 18px 0 12px;
             position: relative;
+            overflow: visible;
         }
 
         .ogorczak {
@@ -130,26 +131,82 @@
             height: auto;
             image-rendering: pixelated;
             filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.5));
-            animation: idle 2.2s steps(4) infinite;
             cursor: pointer;
             z-index: 2;
+            position: relative;
+            transition: filter 0.2s;
+            user-select: none;
         }
         .ogorczak:hover {
-            filter: drop-shadow(4px 6px 0 rgba(93, 156, 62, 0.6));
+            filter: drop-shadow(4px 6px 0 rgba(93, 156, 62, 0.65));
         }
 
-        @keyframes idle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+        .speech-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e2a1c;
+            border: 3px solid #0f160e;
+            box-shadow: 3px 3px 0 #000;
+            color: var(--mc-gold);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.48rem;
+            padding: 8px 10px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            line-height: 1.4;
+            transition: opacity 0.15s;
+        }
+        .speech-bubble.show {
+            opacity: 1;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #0f160e;
         }
 
         .click-hearts {
             position: absolute;
-            top: 25%;
+            top: 20%;
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
-            z-index: 3;
+            z-index: 4;
+        }
+
+        /* Przycisk muzyki */
+        .music-btn {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            width: 48px;
+            height: 48px;
+            background: #2b3a28;
+            border: 4px solid #1a2418;
+            box-shadow: inset 0 0 0 2px var(--mc-green), 3px 3px 0 #0d140c;
+            color: var(--mc-gold);
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            image-rendering: pixelated;
+            transition: none;
+        }
+        .music-btn:hover {
+            border-color: var(--mc-pink);
+        }
+        .music-btn.playing {
+            box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c;
         }
 
         /* ===== GŁÓWNE ZDJĘCIE ===== */
@@ -391,7 +448,8 @@
             <p class="subtitle">od 14 czerwca 2026<br>Survival Mode: Love</p>
 
             <div class="ogorczak-box">
-                <img src="ogorczak.jpg" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij mnie!">
+                <div class="speech-bubble" id="speech">💚</div>
+                <img src="ogorczak.jpg" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij / przesuń myszką!">
                 <div class="click-hearts" id="clickHearts"></div>
             </div>
         </header>
@@ -513,6 +571,12 @@
         </footer>
     </div>
 
+    <!-- Muzyka -->
+    <button class="music-btn" id="musicBtn" title="Włącz / wyłącz muzykę">♪</button>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         // Licznik od 14 czerwca 2026, godz. 22:00
         const startDate = new Date('2026-06-14T22:00:00');
@@ -554,38 +618,115 @@
         updateCounter();
         setInterval(updateCounter, 1000);
 
-        // Kliknięcie w Ogórczaka
+        // ===== OGÓRCZAK – bardziej interaktywny =====
         const ogorczak = document.getElementById('ogorczak');
         const clickHearts = document.getElementById('clickHearts');
+        const speech = document.getElementById('speech');
+        const box = document.querySelector('.ogorczak-box');
 
+        let posX = 0;
+        let dir = 1;
+        let isBusy = false;
+        const phrases = [
+            'Kocham Cię! 💚',
+            'Ogórczak approves',
+            'Woda z mopa? 🥒',
+            'Jesteś hot',
+            'Survival Mode',
+            '❤ ❤ ❤',
+            'Marcin + Ty',
+            'Prawilony forever'
+        ];
+
+        // Delikatne chodzenie w lewo-prawo
+        function walk() {
+            if (isBusy) return;
+            posX += dir * 0.35;
+            if (posX > 55) dir = -1;
+            if (posX < -55) dir = 1;
+            ogorczak.style.transform = `translateX(${posX}px) translateY(${Math.sin(Date.now()/220)*6}px) scaleX(${dir})`;
+            requestAnimationFrame(walk);
+        }
+        walk();
+
+        // Kliknięcie
         ogorczak.addEventListener('click', () => {
-            ogorczak.style.animation = 'none';
-            void ogorczak.offsetWidth;
-            ogorczak.style.animation = 'idle 0.3s steps(2) 3';
+            if (isBusy) return;
+            isBusy = true;
 
-            for (let i = 0; i < 6; i++) {
+            // Losowa kwestia
+            speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            speech.classList.add('show');
+
+            // Duży skok + obrót
+            ogorczak.style.transition = 'transform 0.45s cubic-bezier(0.2, 1.4, 0.3, 1)';
+            ogorczak.style.transform = `translateX(${posX}px) translateY(-70px) rotate(${dir*360}deg) scale(1.25)`;
+
+            // Serduszka
+            for (let i = 0; i < 8; i++) {
                 const heart = document.createElement('span');
-                heart.textContent = ['💚','❤️','💗'][Math.floor(Math.random()*3)];
-                heart.style.position = 'absolute';
-                heart.style.left = (Math.random() * 60 - 30) + 'px';
-                heart.style.fontSize = (14 + Math.random() * 10) + 'px';
-                heart.style.opacity = '1';
-                heart.style.transition = 'all 1s steps(6)';
+                heart.textContent = ['💚','❤️','💗','🥒'][Math.floor(Math.random()*4)];
+                heart.style.cssText = `
+                    position:absolute; left:${(Math.random()*80-40)}px; top:0;
+                    font-size:${14+Math.random()*14}px; opacity:1;
+                    transition: all 1.1s ease-out; pointer-events:none;
+                `;
                 clickHearts.appendChild(heart);
-
                 setTimeout(() => {
-                    heart.style.transform = `translateY(-70px) scale(1.3)`;
+                    heart.style.transform = `translateY(-90px) scale(1.4)`;
                     heart.style.opacity = '0';
-                }, 30);
-                setTimeout(() => heart.remove(), 1100);
+                }, 20);
+                setTimeout(() => heart.remove(), 1200);
             }
 
             setTimeout(() => {
-                ogorczak.style.animation = 'idle 2.2s steps(4) infinite';
+                ogorczak.style.transition = 'transform 0.3s ease';
+                ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
+                speech.classList.remove('show');
+                isBusy = false;
             }, 700);
         });
 
-        // Serduszka w tle
+        // Reakcja na ruch myszki – lekko patrzy w stronę kursora
+        document.addEventListener('mousemove', (e) => {
+            if (isBusy) return;
+            const rect = box.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const dx = e.clientX - centerX;
+            if (Math.abs(dx) > 40) {
+                dir = dx > 0 ? 1 : -1;
+            }
+        });
+
+        // Losowe gadanie co jakiś czas
+        setInterval(() => {
+            if (isBusy || Math.random() > 0.4) return;
+            speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            speech.classList.add('show');
+            setTimeout(() => speech.classList.remove('show'), 2200);
+        }, 9000);
+
+        // ===== MUZYKA =====
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let musicOn = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (musicOn) {
+                bgMusic.pause();
+                musicBtn.textContent = '♪';
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play().catch(() => {
+                    // przeglądarka blokuje autoplay – nic strasznego
+                });
+                musicBtn.textContent = '♫';
+                musicBtn.classList.add('playing');
+            }
+            musicOn = !musicOn;
+        });
+
+        // ===== Serduszka w tle =====
         const heartsContainer = document.getElementById('hearts');
         const heartSymbols = ['💚', '❤️', '🤍'];
 
