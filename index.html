@@ -406,6 +406,9 @@
     </div>
 
     <button class="music-btn" id="musicBtn" title="Włącz / wyłącz muzykę">♪</button>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         const startDate = new Date('2026-07-11T00:00:00');
@@ -460,7 +463,12 @@
             'Ej, Marcin, co tak serio patrzysz?',
             'Chodź bliżej, nie gryzę... mocno',
             'Marcin, masz coś na twarzy... o, to uśmiech',
-            'Ciacho od Ciebie? Biorę 🍪'
+            'Ciacho od Ciebie? Biorę 🍪',
+            'Marcin, nie przestawaj 😂',
+            'Jeszcze raz, proszę!',
+            'Haha, lubię jak mnie molestujesz',
+            'Marcin, jesteś uzależniony ode mnie',
+            'Kolejny klik = kolejny punkt dla Ciebie'
         ];
 
         function walk() {
@@ -502,32 +510,63 @@
             speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
             speech.classList.add('show');
 
-            ogorczak.style.transition = 'transform 0.45s cubic-bezier(0.2, 1.4, 0.3, 1)';
-            ogorczak.style.transform = `translateX(${posX}px) translateY(-75px) rotate(${dir*360}deg) scale(1.3)`;
+            // Losowy fajny ruch
+            const moves = [
+                // duży skok + obrót
+                () => {
+                    ogorczak.style.transition = 'transform 0.4s cubic-bezier(0.2, 1.5, 0.3, 1)';
+                    ogorczak.style.transform = `translateX(${posX}px) translateY(-80px) rotate(${dir*360}deg) scale(1.35)`;
+                },
+                // trzęsienie
+                () => {
+                    ogorczak.style.transition = 'transform 0.08s linear';
+                    let shakes = 0;
+                    const shake = () => {
+                        if (shakes > 8) return;
+                        ogorczak.style.transform = `translateX(${posX + (Math.random()*16-8)}px) translateY(${Math.random()*10-5}px) scaleX(${dir}) rotate(${Math.random()*10-5}deg)`;
+                        shakes++;
+                        setTimeout(shake, 50);
+                    };
+                    shake();
+                },
+                // podskok w bok
+                () => {
+                    ogorczak.style.transition = 'transform 0.35s cubic-bezier(0.2, 1.4, 0.3, 1)';
+                    ogorczak.style.transform = `translateX(${posX + dir*40}px) translateY(-50px) scaleX(${dir}) scale(1.2)`;
+                },
+                // flip w poziomie
+                () => {
+                    ogorczak.style.transition = 'transform 0.4s ease';
+                    ogorczak.style.transform = `translateX(${posX}px) scaleX(${-dir}) scale(1.25)`;
+                },
+                // mały taniec
+                () => {
+                    ogorczak.style.transition = 'transform 0.2s ease';
+                    ogorczak.style.transform = `translateX(${posX}px) translateY(-25px) rotate(15deg) scaleX(${dir})`;
+                    setTimeout(() => {
+                        ogorczak.style.transform = `translateX(${posX}px) translateY(-15px) rotate(-15deg) scaleX(${dir})`;
+                    }, 180);
+                }
+            ];
+            moves[Math.floor(Math.random() * moves.length)]();
 
-            for (let i = 0; i < 9; i++) {
+            // Serduszka / emoji
+            for (let i = 0; i < 10; i++) {
                 const heart = document.createElement('span');
-                heart.textContent = ['💚','❤️','💗','🥒','🍪'][Math.floor(Math.random()*5)];
-                heart.style.cssText = `position:absolute;left:${(Math.random()*90-45)}px;top:0;font-size:${15+Math.random()*14}px;opacity:1;transition:all 1.15s ease-out;pointer-events:none;`;
+                heart.textContent = ['💚','❤️','💗','🥒','🍪','✨'][Math.floor(Math.random()*6)];
+                heart.style.cssText = `position:absolute;left:${(Math.random()*100-50)}px;top:0;font-size:${14+Math.random()*16}px;opacity:1;transition:all 1.1s ease-out;pointer-events:none;`;
                 clickHearts.appendChild(heart);
-                setTimeout(() => { heart.style.transform = 'translateY(-95px) scale(1.45)'; heart.style.opacity = '0'; }, 20);
-                setTimeout(() => heart.remove(), 1300);
+                setTimeout(() => { heart.style.transform = 'translateY(-100px) scale(1.5)'; heart.style.opacity = '0'; }, 20);
+                setTimeout(() => heart.remove(), 1200);
             }
 
             setTimeout(() => {
                 ogorczak.style.transition = 'transform 0.25s ease';
                 ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
-            }, 450);
+            }, 480);
 
-            // Szybkie odblokowanie = można molestować jedno po drugim
-            setTimeout(() => {
-                isBusy = false;
-            }, 380);
-
-            // Tekst znika trochę później
-            setTimeout(() => {
-                speech.classList.remove('show');
-            }, 2200);
+            setTimeout(() => { isBusy = false; }, 360);
+            setTimeout(() => { speech.classList.remove('show'); }, 2300);
         });
 
         document.addEventListener('mousemove', (e) => {
@@ -554,62 +593,17 @@
         setInterval(() => { if (Math.random() > 0.32) tease(); }, 6000);
         setInterval(() => { if (Math.random() > 0.65) tease(); }, 11000);
 
-        // Muzyka generowana (bez pliku mp3)
+        // Muzyka z pliku
         const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
         let musicOn = false;
-        let audioCtx = null;
-        let masterGain = null;
-        let oscillators = [];
-
-        function startAmbient() {
-            if (audioCtx) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            masterGain = audioCtx.createGain();
-            masterGain.gain.value = 0.07;
-            masterGain.connect(audioCtx.destination);
-
-            // Delikatne pady (akord C-major-ish soft)
-            const notes = [130.81, 164.81, 196.00, 261.63]; // C3 E3 G3 C4
-            notes.forEach((freq, i) => {
-                const osc = audioCtx.createOscillator();
-                const g = audioCtx.createGain();
-                osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-                osc.frequency.value = freq;
-                g.gain.value = 0.15;
-                osc.connect(g);
-                g.connect(masterGain);
-                osc.start();
-                oscillators.push({ osc, g });
-            });
-
-            // Lekkie "oddychanie" głośności
-            function breathe() {
-                if (!musicOn || !masterGain) return;
-                const now = audioCtx.currentTime;
-                masterGain.gain.cancelScheduledValues(now);
-                masterGain.gain.setValueAtTime(masterGain.gain.value, now);
-                masterGain.gain.linearRampToValueAtTime(0.05 + Math.random() * 0.04, now + 3 + Math.random() * 2);
-                setTimeout(breathe, 4000 + Math.random() * 3000);
-            }
-            breathe();
-        }
-
-        function stopAmbient() {
-            if (!audioCtx) return;
-            oscillators.forEach(({ osc }) => { try { osc.stop(); } catch(e) {} });
-            oscillators = [];
-            audioCtx.close().catch(()=>{});
-            audioCtx = null;
-            masterGain = null;
-        }
-
         musicBtn.addEventListener('click', () => {
             if (musicOn) {
-                stopAmbient();
+                bgMusic.pause();
                 musicBtn.textContent = '♪';
                 musicBtn.classList.remove('playing');
             } else {
-                startAmbient();
+                bgMusic.play().catch(() => {});
                 musicBtn.textContent = '♫';
                 musicBtn.classList.add('playing');
             }
