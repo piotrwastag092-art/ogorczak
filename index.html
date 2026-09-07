@@ -12,12 +12,10 @@
             --mc-green: #5d9c3e;
             --mc-dark: #3a6b2a;
             --mc-dirt: #8b6b4a;
-            --mc-stone: #7a7a7a;
             --mc-gold: #ffd83d;
             --mc-pink: #ff7a9c;
             --mc-soft-pink: #ffb0c4;
             --panel: #2b3a28;
-            --panel-border: #1a2418;
             --text: #f0e6d0;
             --text-dim: #a8b89a;
         }
@@ -27,30 +25,21 @@
         body {
             font-family: 'Quicksand', sans-serif;
             background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 31px,
-                    rgba(0,0,0,0.03) 32px
-                ),
-                linear-gradient(180deg, #0d1a12 0%, #1a2e1f 40%, #243a28 100%);
+                repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(0,0,0,0.04) 32px),
+                linear-gradient(180deg, #0a140e 0%, #152a1c 40%, #1e3526 100%);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-            image-rendering: pixelated;
         }
 
-        /* Pixel grid overlay */
         body::before {
             content: '';
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background-image: 
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
             background-size: 16px 16px;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
         .stars {
@@ -60,401 +49,251 @@
                 radial-gradient(1.5px 1.5px at 28% 55%, rgba(255,255,255,0.7), transparent),
                 radial-gradient(2px 2px at 55% 25%, #fff, transparent),
                 radial-gradient(1.5px 1.5px at 72% 78%, rgba(255,255,255,0.6), transparent),
-                radial-gradient(2px 2px at 88% 35%, #fff, transparent);
-            background-size: 260px 260px;
-            opacity: 0.35;
+                radial-gradient(2px 2px at 88% 35%, #fff, transparent),
+                radial-gradient(1px 1px at 40% 80%, #fff, transparent);
+            background-size: 240px 240px;
+            opacity: 0.4;
         }
 
         .floating-hearts {
             position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
         }
         .floating-hearts span {
-            position: absolute; font-size: 12px; opacity: 0.2;
-            animation: rise 14s linear infinite;
-            image-rendering: pixelated;
+            position: absolute; font-size: 13px; opacity: 0.22;
+            animation: rise 13s linear infinite;
         }
         @keyframes rise {
             0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            20% { opacity: 0.25; }
+            20% { opacity: 0.28; }
             80% { opacity: 0.15; }
-            100% { transform: translateY(-5vh) scale(1); opacity: 0; }
+            100% { transform: translateY(-5vh) scale(1.1); opacity: 0; }
         }
 
         .container {
-            max-width: 760px;
+            max-width: 780px;
             margin: 0 auto;
-            padding: 20px 14px 45px;
+            padding: 18px 14px 60px;
             position: relative;
             z-index: 1;
         }
 
-        /* ===== HEADER ===== */
-        header {
-            text-align: center;
-            padding: 24px 6px 6px;
-        }
+        /* HEADER */
+        header { text-align: center; padding: 20px 6px 6px; }
 
         h1 {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(0.9rem, 3.8vw, 1.35rem);
+            font-size: clamp(0.85rem, 3.6vw, 1.3rem);
             color: var(--mc-gold);
-            text-shadow: 
-                4px 4px 0 #2a1c00,
-                -1px -1px 0 #000,
-                1px -1px 0 #000,
-                -1px 1px 0 #000;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            text-shadow: 4px 4px 0 #2a1c00, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+            line-height: 1.65;
+            margin-bottom: 8px;
         }
 
         .subtitle {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.55rem;
+            font-size: 0.52rem;
             color: var(--mc-soft-pink);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        /* ===== OGÓRCZAK ===== */
+        /* OGÓRCZAK */
         .ogorczak-box {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            height: 240px;
-            margin: 18px 0 12px;
-            position: relative;
-            overflow: visible;
-        }
-
-        /* Extra małe Ogórczaki */
-        .mini-ogorczak {
-            position: absolute;
-            width: 48px;
-            height: auto;
-            image-rendering: pixelated;
-            filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.4));
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.85;
-        }
-        .mini-1 { top: 10px; left: 8%; animation: miniFloat 3.5s ease-in-out infinite; }
-        .mini-2 { top: 30px; right: 10%; animation: miniFloat 4.2s ease-in-out infinite 0.8s; }
-        .mini-3 { bottom: 20px; left: 18%; animation: miniFloat 3.8s ease-in-out infinite 1.4s; width: 38px; }
-
-        @keyframes miniFloat {
-            0%, 100% { transform: translateY(0) rotate(-4deg); }
-            50% { transform: translateY(-14px) rotate(4deg); }
+            display: flex; justify-content: center; align-items: flex-end;
+            height: 250px; margin: 16px 0 10px; position: relative; overflow: visible;
         }
 
         .ogorczak {
-            width: 115px;
-            height: auto;
+            width: 120px; height: auto;
             image-rendering: pixelated;
-            filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.5));
-            cursor: pointer;
-            z-index: 2;
-            position: relative;
-            transition: filter 0.2s;
+            filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.55));
+            cursor: pointer; z-index: 3; position: relative;
             user-select: none;
         }
-        .ogorczak:hover {
-            filter: drop-shadow(4px 6px 0 rgba(93, 156, 62, 0.65));
+
+        .mini-ogorczak {
+            position: absolute; width: 46px; height: auto;
+            image-rendering: pixelated;
+            filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.4));
+            pointer-events: none; z-index: 1; opacity: 0.9;
+        }
+        .mini-1 { top: 8px; left: 6%; animation: miniFloat 3.4s ease-in-out infinite; }
+        .mini-2 { top: 25px; right: 8%; animation: miniFloat 4.1s ease-in-out infinite 0.7s; }
+        .mini-3 { bottom: 25px; left: 15%; animation: miniFloat 3.7s ease-in-out infinite 1.3s; width: 36px; }
+        .mini-4 { top: 50px; left: 78%; animation: miniFloat 3.9s ease-in-out infinite 0.4s; width: 40px; }
+
+        @keyframes miniFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-16px) rotate(5deg); }
         }
 
         .speech-bubble {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e2a1c;
-            border: 3px solid #0f160e;
-            box-shadow: 3px 3px 0 #000;
-            color: var(--mc-gold);
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.48rem;
-            padding: 8px 10px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 5;
-            line-height: 1.4;
-            transition: opacity 0.15s;
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            background: #1e2a1c; border: 3px solid #0f160e;
+            box-shadow: 3px 3px 0 #000; color: var(--mc-gold);
+            font-family: 'Press Start 2P', cursive; font-size: 0.46rem;
+            padding: 8px 11px; white-space: nowrap; opacity: 0;
+            pointer-events: none; z-index: 6; line-height: 1.45;
+            transition: opacity 0.15s; max-width: 90vw;
         }
-        .speech-bubble.show {
-            opacity: 1;
-        }
+        .speech-bubble.show { opacity: 1; }
         .speech-bubble::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
+            content: ''; position: absolute; top: 100%; left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: #0f160e;
+            border: 7px solid transparent; border-top-color: #0f160e;
         }
 
         .click-hearts {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 4;
+            position: absolute; top: 18%; left: 50%;
+            transform: translateX(-50%); pointer-events: none; z-index: 5;
         }
 
-        /* Przycisk muzyki */
-        .music-btn {
-            position: fixed;
-            bottom: 18px;
-            right: 18px;
-            width: 48px;
-            height: 48px;
-            background: #2b3a28;
-            border: 4px solid #1a2418;
-            box-shadow: inset 0 0 0 2px var(--mc-green), 3px 3px 0 #0d140c;
-            color: var(--mc-gold);
-            font-size: 1.3rem;
-            cursor: pointer;
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            image-rendering: pixelated;
-            transition: none;
-        }
-        .music-btn:hover {
-            border-color: var(--mc-pink);
-        }
-        .music-btn.playing {
-            box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c;
-        }
-
-        /* ===== GŁÓWNE ZDJĘCIE ===== */
-        .main-photo-wrap {
-            margin: 8px 0 24px;
-            text-align: center;
-        }
-
+        /* GŁÓWNE ZDJĘCIE */
+        .main-photo-wrap { margin: 6px 0 20px; text-align: center; }
         .main-photo {
-            width: 100%;
-            max-width: 380px;
+            width: 100%; max-width: 360px;
             border: 6px solid #3a2a1a;
-            border-image: none;
-            box-shadow: 
-                inset 0 0 0 3px var(--mc-green),
-                6px 6px 0 #1a1208,
-                0 0 0 2px #000;
-            display: block;
-            margin: 0 auto;
-            object-fit: cover;
-            aspect-ratio: 3/4;
-            image-rendering: auto;
+            box-shadow: inset 0 0 0 3px var(--mc-green), 6px 6px 0 #1a1208, 0 0 0 2px #000;
+            display: block; margin: 0 auto; object-fit: cover; aspect-ratio: 3/4;
         }
-
         .photo-caption {
-            margin-top: 10px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.55rem;
-            color: var(--mc-soft-pink);
+            margin-top: 9px; font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem; color: var(--mc-soft-pink);
         }
 
-        /* ===== LICZNIK ===== */
+        /* LICZNIK */
         .counter-card {
             background: var(--panel);
             border: 4px solid #1a2418;
-            box-shadow: 
-                inset 0 0 0 3px var(--mc-green),
-                5px 5px 0 #0d140c;
-            padding: 22px 12px;
-            margin: 22px 0;
-            text-align: center;
+            box-shadow: inset 0 0 0 3px var(--mc-green), 5px 5px 0 #0d140c;
+            padding: 20px 12px; margin: 18px 0; text-align: center;
         }
-
         .counter-label {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.58rem;
-            color: var(--mc-soft-pink);
-            margin-bottom: 18px;
-            line-height: 1.5;
+            font-family: 'Press Start 2P', cursive; font-size: 0.55rem;
+            color: var(--mc-soft-pink); margin-bottom: 16px; line-height: 1.5;
         }
-
         .counter-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 7px;
         }
-
         .time-unit {
-            background: #1e2a1c;
-            border: 3px solid #0f160e;
+            background: #1e2a1c; border: 3px solid #0f160e;
             box-shadow: inset 2px 2px 0 #000, 2px 2px 0 var(--mc-dark);
-            padding: 10px 6px;
-            min-width: 64px;
+            padding: 9px 5px; min-width: 60px;
         }
-
         .time-number {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.05rem;
-            color: var(--mc-gold);
-            display: block;
-            text-shadow: 2px 2px 0 #000;
+            font-family: 'Press Start 2P', cursive; font-size: 1rem;
+            color: var(--mc-gold); display: block; text-shadow: 2px 2px 0 #000;
         }
-
         .time-name {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.42rem;
-            color: var(--text-dim);
-            margin-top: 6px;
-            text-transform: uppercase;
+            font-family: 'Press Start 2P', cursive; font-size: 0.4rem;
+            color: var(--text-dim); margin-top: 5px; text-transform: uppercase;
         }
 
-        /* ===== SEKCJE ===== */
+        .molest-box {
+            margin-top: 16px; padding: 10px 14px; background: #1e2a1c;
+            border: 3px solid #0f160e;
+            box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c;
+            display: inline-block;
+        }
+        .molest-label {
+            font-family: 'Press Start 2P', cursive; font-size: 0.48rem;
+            color: var(--mc-soft-pink); line-height: 1.5;
+        }
+        .molest-number {
+            font-family: 'Press Start 2P', cursive; font-size: 1.15rem;
+            color: var(--mc-gold); margin-top: 5px; text-shadow: 2px 2px 0 #000;
+        }
+
+        /* SEKCJE */
         section {
             background: var(--panel);
             border: 4px solid #1a2418;
-            box-shadow: 
-                inset 0 0 0 3px var(--mc-dark),
-                5px 5px 0 #0d140c;
-            padding: 20px 16px;
-            margin: 20px 0;
+            box-shadow: inset 0 0 0 3px var(--mc-dark), 5px 5px 0 #0d140c;
+            padding: 18px 15px; margin: 18px 0;
         }
-
         h2 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: var(--mc-gold);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-shadow: 2px 2px 0 #000;
-            line-height: 1.5;
+            font-family: 'Press Start 2P', cursive; font-size: 0.68rem;
+            color: var(--mc-gold); margin-bottom: 13px;
+            display: flex; align-items: center; gap: 8px;
+            text-shadow: 2px 2px 0 #000; line-height: 1.5;
         }
-        h2::before {
-            content: '❤';
-            color: var(--mc-pink);
-            font-size: 0.9rem;
-            text-shadow: none;
-        }
+        h2::before { content: '❤'; color: var(--mc-pink); font-size: 0.85rem; text-shadow: none; }
 
-        .story {
-            line-height: 1.75;
-            font-size: 1rem;
-            color: #e8dfd0;
-        }
-        .story p { margin-bottom: 13px; }
-        .story .highlight {
-            color: var(--mc-soft-pink);
-            font-weight: 700;
-        }
-        .story .ending {
-            margin-top: 16px;
-            color: var(--mc-gold);
-            font-weight: 600;
-        }
+        .story { line-height: 1.75; font-size: 0.98rem; color: #e8dfd0; }
+        .story p { margin-bottom: 12px; }
+        .story .highlight { color: var(--mc-soft-pink); font-weight: 700; }
+        .story .ending { margin-top: 14px; color: var(--mc-gold); font-weight: 600; }
 
-        /* ===== TIMELINE ===== */
-        .timeline {
-            position: relative;
-            padding-left: 24px;
-        }
+        /* TIMELINE */
+        .timeline { position: relative; padding-left: 24px; }
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 4px;
-            top: 2px;
-            bottom: 2px;
-            width: 4px;
-            background: var(--mc-green);
-            box-shadow: 2px 0 0 #1a2418;
+            content: ''; position: absolute; left: 4px; top: 2px; bottom: 2px;
+            width: 4px; background: var(--mc-green); box-shadow: 2px 0 0 #1a2418;
         }
-        .t-item {
-            position: relative;
-            margin-bottom: 18px;
-            padding-left: 14px;
-        }
+        .t-item { position: relative; margin-bottom: 16px; padding-left: 14px; }
         .t-item:last-child { margin-bottom: 0; }
         .t-item::before {
-            content: '';
-            position: absolute;
-            left: -24px;
-            top: 3px;
-            width: 12px;
-            height: 12px;
-            background: var(--mc-gold);
-            border: 3px solid #1a2418;
-            box-shadow: 2px 2px 0 #000;
+            content: ''; position: absolute; left: -24px; top: 3px;
+            width: 12px; height: 12px; background: var(--mc-gold);
+            border: 3px solid #1a2418; box-shadow: 2px 2px 0 #000;
         }
         .t-date {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.5rem;
-            color: var(--mc-pink);
-            margin-bottom: 4px;
-            line-height: 1.4;
+            font-family: 'Press Start 2P', cursive; font-size: 0.48rem;
+            color: var(--mc-pink); margin-bottom: 3px; line-height: 1.4;
         }
-        .t-text {
-            font-size: 0.95rem;
-            color: #d8d0c0;
-        }
+        .t-text { font-size: 0.93rem; color: #d8d0c0; }
 
-        /* ===== GALERIA ===== */
+        /* GALERIA */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 12px;
         }
         .g-item {
-            aspect-ratio: 1;
-            background: #1e2a1c;
+            aspect-ratio: 1; background: #1e2a1c;
             border: 4px solid #1a2418;
             box-shadow: inset 0 0 0 2px var(--mc-dark), 3px 3px 0 #0d140c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dim);
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.45rem;
-            text-align: center;
-            padding: 8px;
-            line-height: 1.5;
-            transition: none;
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-dim); font-family: 'Press Start 2P', cursive;
+            font-size: 0.42rem; text-align: center; padding: 6px;
+            line-height: 1.5; overflow: hidden; position: relative;
+        }
+        .g-item img {
+            width: 100%; height: 100%; object-fit: cover;
         }
         .g-item:hover {
             border-color: var(--mc-pink);
             box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c;
         }
-        .g-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
         .hint {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            line-height: 1.5;
+            margin-top: 12px; font-size: 0.78rem; color: var(--text-dim); line-height: 1.5;
         }
 
+        /* MUZYKA */
+        .music-btn {
+            position: fixed; bottom: 16px; right: 16px;
+            width: 50px; height: 50px; background: #2b3a28;
+            border: 4px solid #1a2418;
+            box-shadow: inset 0 0 0 2px var(--mc-green), 3px 3px 0 #0d140c;
+            color: var(--mc-gold); font-size: 1.35rem; cursor: pointer;
+            z-index: 50; display: flex; align-items: center; justify-content: center;
+        }
+        .music-btn.playing { box-shadow: inset 0 0 0 2px var(--mc-pink), 3px 3px 0 #0d140c; }
+
         footer {
-            text-align: center;
-            padding: 24px 10px 6px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.48rem;
-            color: var(--text-dim);
-            line-height: 1.7;
+            text-align: center; padding: 22px 10px 8px;
+            font-family: 'Press Start 2P', cursive; font-size: 0.46rem;
+            color: var(--text-dim); line-height: 1.7;
         }
         footer .heart { color: var(--mc-pink); }
 
         @media (max-width: 540px) {
-            .time-unit { min-width: 56px; padding: 8px 4px; }
+            .time-unit { min-width: 54px; padding: 8px 4px; }
             .time-number { font-size: 0.9rem; }
-            .ogorczak { width: 95px; }
-            .ogorczak-box { height: 180px; }
+            .ogorczak { width: 100px; }
+            .ogorczak-box { height: 200px; }
             .main-photo { max-width: 100%; }
-            section { padding: 16px 12px; }
-            h2 { font-size: 0.6rem; }
+            section { padding: 15px 12px; }
+            h2 { font-size: 0.58rem; }
         }
     </style>
 </head>
@@ -471,98 +310,57 @@
                 <img src="ogorczak.png" class="mini-ogorczak mini-1" alt="">
                 <img src="ogorczak.png" class="mini-ogorczak mini-2" alt="">
                 <img src="ogorczak.png" class="mini-ogorczak mini-3" alt="">
+                <img src="ogorczak.png" class="mini-ogorczak mini-4" alt="">
                 <div class="speech-bubble" id="speech">💚</div>
                 <img src="ogorczak.png" alt="Ogórczak" class="ogorczak" id="ogorczak" title="Kliknij mnie, Marcin!">
                 <div class="click-hearts" id="clickHearts"></div>
             </div>
         </header>
 
-        <!-- GŁÓWNE ZDJĘCIE -->
         <div class="main-photo-wrap">
             <img src="nasze-zdjecie.jpg" alt="My z Marcinem" class="main-photo">
             <p class="photo-caption">My 💚</p>
         </div>
 
-        <!-- LICZNIK -->
         <div class="counter-card">
             <div class="counter-label">Jesteśmy razem już...</div>
             <div class="counter-grid">
-                <div class="time-unit">
-                    <span class="time-number" id="years">0</span>
-                    <div class="time-name">lat</div>
-                </div>
-                <div class="time-unit">
-                    <span class="time-number" id="months">0</span>
-                    <div class="time-name">mies</div>
-                </div>
-                <div class="time-unit">
-                    <span class="time-number" id="days">0</span>
-                    <div class="time-name">dni</div>
-                </div>
-                <div class="time-unit">
-                    <span class="time-number" id="hours">0</span>
-                    <div class="time-name">godz</div>
-                </div>
-                <div class="time-unit">
-                    <span class="time-number" id="minutes">0</span>
-                    <div class="time-name">min</div>
-                </div>
-                <div class="time-unit">
-                    <span class="time-number" id="seconds">0</span>
-                    <div class="time-name">sek</div>
-                </div>
+                <div class="time-unit"><span class="time-number" id="years">0</span><div class="time-name">lat</div></div>
+                <div class="time-unit"><span class="time-number" id="months">0</span><div class="time-name">mies</div></div>
+                <div class="time-unit"><span class="time-number" id="days">0</span><div class="time-name">dni</div></div>
+                <div class="time-unit"><span class="time-number" id="hours">0</span><div class="time-name">godz</div></div>
+                <div class="time-unit"><span class="time-number" id="minutes">0</span><div class="time-name">min</div></div>
+                <div class="time-unit"><span class="time-number" id="seconds">0</span><div class="time-name">sek</div></div>
             </div>
-            <div style="margin-top:18px; padding:10px 12px; background:#1e2a1c; border:3px solid #0f160e; box-shadow: inset 0 0 0 2px var(--mc-green), 3px 3px 0 #0d140c; display:inline-block;">
-                <div style="font-family:'Press Start 2P',cursive; font-size:0.52rem; color:var(--mc-soft-pink); line-height:1.6;">
-                    Molestowania Ogórczaka
-                </div>
-                <div style="font-family:'Press Start 2P',cursive; font-size:1.1rem; color:var(--mc-gold); margin-top:6px; text-shadow:2px 2px 0 #000;" id="molestCount">0</div>
+            <div class="molest-box">
+                <div class="molest-label">Molestowania Ogórczaka</div>
+                <div class="molest-number" id="molestCount">0</div>
             </div>
         </div>
 
-        <!-- HISTORIA -->
         <section>
             <h2>Nasza Historia</h2>
             <div class="story">
                 <p><strong>Jak to się zaczęło</strong></p>
-
                 <p>Poznaliśmy się na Grindrze 27 czerwca 2026. Zwykłe „hej”, kilka wiadomości, a potem wszystko potoczyło się szybciej, niż ktokolwiek mógł przewidzieć.</p>
-
                 <p>Pamiętam naszą pierwszą randkę. Poszliśmy wtedy na double date z Anią i jej dziewczyną na warszawskie Prawilony. Niby zwykły wieczór, kilka drinków, trochę śmiechu, a jednak z perspektywy czasu wiem, że to był początek czegoś naprawdę ważnego.</p>
-
                 <p>To właśnie wtedy pokazałeś mi, czym jest „woda z mopa”. Do dzisiaj nie wiem, kto wpadł na pomysł, żeby zrobić shota, który wygląda jak coś wyciśniętego z brudnego mopa, ale pamiętam, że wyglądało to absolutnie obrzydliwie. Najlepsze było to, że po spróbowaniu okazało się, że wcale nie jest takie złe. I chyba trochę tak było z nami — z pozoru wszystko mogło wyglądać trochę dziwnie, nieoczywiście, a jednak z czasem okazało się naprawdę dobre.</p>
-
                 <p>Potem, po kilku kolejnych shotach, przeszliśmy całą czwórką na główny plac Prawilonów. I tam zacząłem Cię zaczepiać. Prowokować. Tak trochę dla żartów, trochę żeby zobaczyć, co z Ciebie wyjdzie.</p>
-
                 <p>No i wyszło.</p>
-
                 <p>Lekko mnie popchnąłeś i powiedziałeś coś takim stanowczym, męskim głosem, że… no kurwa, mega mi się to spodobało. Było w tym coś, co mnie totalnie przyciągnęło. Pamiętam, że pomyślałem sobie wtedy, że jesteś cholernie hot.</p>
-
                 <p>Ania spojrzała na nas przy tym jak na dwóch idiotów, jakby przez chwilę naprawdę nie wiedziała, czy my się właśnie flirtując szarpiemy, czy zaraz będziemy się bić. A my po prostu mieliśmy swój sposób na poznawanie się.</p>
-
                 <p>I później wydarzyło się coś, czego chyba żadne z nas się nie spodziewało.</p>
-
                 <p>Powiedziałem Ci coś, co wywołało w Twoich oczach prawdziwe łzy. Pamiętam Twoje oszołomienie, ten moment, kiedy chyba sam nie do końca wiedziałeś, co się właśnie wydarzyło.</p>
-
-                <p>A ja po prostu powiedziałem Ci po raz pierwszy:<br>
-                <span class="highlight">„Szczerze Cię kocham.”</span></p>
-
+                <p>A ja po prostu powiedziałem Ci po raz pierwszy:<br><span class="highlight">„Szczerze Cię kocham.”</span></p>
                 <p>I może właśnie wtedy wszystko stało się trochę bardziej prawdziwe.</p>
-
                 <p>Bo od tamtego wieczoru zaczęła się nasza historia. Historia, która miała w sobie wodę z mopa, shoty, zaczepki, śmiech, trochę chaosu i bardzo dużo emocji. Ale przede wszystkim — Ciebie i mnie.</p>
-
                 <p>I gdzieś pomiędzy tym wszystkim pojawił się Ogórczak.</p>
-
                 <p>Bo przecież moim zdaniem, póki jest w nas miłość, to jest z nami Ogórczak. Nie da się go do końca wytłumaczyć, tak samo jak nie da się do końca wytłumaczyć tego, dlaczego akurat Ty i dlaczego akurat ja. Po prostu jest.</p>
-
                 <p>I chcę, żeby tak już zostało. Żeby był z nami przez wszystkie nasze kolejne randki, głupie żarty, piękne momenty, trudniejsze chwile i wszystkie historie, które jeszcze napiszemy.</p>
-
-                <p class="ending">Bo tamten wieczór był tylko początkiem.<br>
-                A ja mam nadzieję, że Ty będziesz moją historią już na zawsze. ❤️🥒</p>
+                <p class="ending">Bo tamten wieczór był tylko początkiem.<br>A ja mam nadzieję, że Ty będziesz moją historią już na zawsze. ❤️🥒</p>
             </div>
         </section>
 
-        <!-- TIMELINE -->
         <section>
             <h2>Kamienie Milowe</h2>
             <div class="timeline">
@@ -585,63 +383,50 @@
             </div>
         </section>
 
-        <!-- GALERIA -->
         <section>
             <h2>Nasze Wspomnienia</h2>
             <div class="gallery">
-                <div class="g-item">Dodaj<br>zdjęcie</div>
+                <div class="g-item">
+                    <img src="ciastko.jpg" alt="Ciacho od @chipsikk_0">
+                </div>
                 <div class="g-item">Dodaj<br>zdjęcie</div>
                 <div class="g-item">Dodaj<br>zdjęcie</div>
                 <div class="g-item">Dodaj<br>zdjęcie</div>
             </div>
             <p class="hint">
-                Żeby dodać zdjęcie: wrzuć plik do repozytorium i zamień tekst na<br>
-                <code style="color:var(--mc-gold);font-size:0.75rem;">&lt;img src="nazwa.jpg" alt="opis"&gt;</code>
+                Żeby dodać kolejne zdjęcie: wrzuć plik i zamień „Dodaj zdjęcie” na<br>
+                <code style="color:var(--mc-gold);font-size:0.72rem;">&lt;img src="nazwa.jpg" alt="opis"&gt;</code>
             </p>
         </section>
 
         <footer>
             <p>Zrobione z <span class="heart">❤</span> dla Marcina<br>i Ogórczaka</p>
-            <p style="margin-top: 8px;">Survival Mode: Love</p>
+            <p style="margin-top: 7px;">Survival Mode: Love</p>
         </footer>
     </div>
 
-    <!-- Muzyka -->
     <button class="music-btn" id="musicBtn" title="Włącz / wyłącz muzykę">♪</button>
-    <audio id="bgMusic" loop preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
-        // Licznik od 11 lipca 2026
         const startDate = new Date('2026-07-11T00:00:00');
 
         function updateCounter() {
             const now = new Date();
             let diff = now - startDate;
-
             if (diff < 0) {
-                ['years','months','days','hours','minutes','seconds'].forEach(id => {
-                    document.getElementById(id).textContent = '0';
-                });
+                ['years','months','days','hours','minutes','seconds'].forEach(id => document.getElementById(id).textContent = '0');
                 return;
             }
-
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-            diff -= years * (1000 * 60 * 60 * 24 * 365.25);
-
-            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
-            diff -= months * (1000 * 60 * 60 * 24 * 30.44);
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            diff -= days * (1000 * 60 * 60 * 24);
-
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            diff -= hours * (1000 * 60 * 60);
-
-            const minutes = Math.floor(diff / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+            const years = Math.floor(diff / (1000*60*60*24*365.25));
+            diff -= years * (1000*60*60*24*365.25);
+            const months = Math.floor(diff / (1000*60*60*24*30.44));
+            diff -= months * (1000*60*60*24*30.44);
+            const days = Math.floor(diff / (1000*60*60*24));
+            diff -= days * (1000*60*60*24);
+            const hours = Math.floor(diff / (1000*60*60));
+            diff -= hours * (1000*60*60);
+            const minutes = Math.floor(diff / (1000*60));
+            const seconds = Math.floor((diff % (1000*60)) / 1000);
             document.getElementById('years').textContent = years;
             document.getElementById('months').textContent = months;
             document.getElementById('days').textContent = days;
@@ -649,19 +434,16 @@
             document.getElementById('minutes').textContent = minutes;
             document.getElementById('seconds').textContent = seconds;
         }
-
         updateCounter();
         setInterval(updateCounter, 1000);
 
-        // ===== OGÓRCZAK – bardziej interaktywny =====
+        // Ogórczak
         const ogorczak = document.getElementById('ogorczak');
         const clickHearts = document.getElementById('clickHearts');
         const speech = document.getElementById('speech');
         const box = document.querySelector('.ogorczak-box');
+        let posX = 0, dir = 1, isBusy = false;
 
-        let posX = 0;
-        let dir = 1;
-        let isBusy = false;
         const phrases = [
             'Marcin, znowu tu siedzisz? 😂',
             'Hej Ty, kliknij mnie w końcu',
@@ -677,171 +459,176 @@
             'Ogórczak never lies: kocham Cię, Marcin',
             'Ej, Marcin, co tak serio patrzysz?',
             'Chodź bliżej, nie gryzę... mocno',
-            'Marcin, masz coś na twarzy... o, to uśmiech'
+            'Marcin, masz coś na twarzy... o, to uśmiech',
+            'Ciacho od Ciebie? Biorę 🍪'
         ];
 
-        // Delikatne chodzenie w lewo-prawo
         function walk() {
             if (isBusy) return;
-            posX += dir * 0.35;
-            if (posX > 55) dir = -1;
-            if (posX < -55) dir = 1;
-            ogorczak.style.transform = `translateX(${posX}px) translateY(${Math.sin(Date.now()/220)*6}px) scaleX(${dir})`;
+            posX += dir * 0.38;
+            if (posX > 58) dir = -1;
+            if (posX < -58) dir = 1;
+            ogorczak.style.transform = `translateX(${posX}px) translateY(${Math.sin(Date.now()/200)*7}px) scaleX(${dir})`;
             requestAnimationFrame(walk);
         }
         walk();
 
-        // Prosty dźwięk kliknięcia (bez dodatkowych plików)
         function playClickSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                osc.connect(gain);
-                gain.connect(ctx.destination);
+                osc.connect(gain); gain.connect(ctx.destination);
                 osc.type = 'square';
-                osc.frequency.setValueAtTime(680, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.12);
-                gain.gain.setValueAtTime(0.18, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
-                osc.start(ctx.currentTime);
-                osc.stop(ctx.currentTime + 0.15);
-            } catch (e) {}
+                osc.frequency.setValueAtTime(720, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.13);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.16);
+            } catch(e) {}
         }
 
-        // Licznik molestowań (kliknięć)
         let molestCount = parseInt(localStorage.getItem('ogorczakMolest') || '0', 10);
-        const molestDisplay = document.getElementById('molestCount');
-        molestDisplay.textContent = molestCount;
+        document.getElementById('molestCount').textContent = molestCount;
 
-        // Kliknięcie
         ogorczak.addEventListener('click', () => {
             if (isBusy) return;
             isBusy = true;
-
             playClickSound();
-
-            // +1 molestowanie
             molestCount++;
-            molestDisplay.textContent = molestCount;
+            document.getElementById('molestCount').textContent = molestCount;
             localStorage.setItem('ogorczakMolest', molestCount);
 
-            // Losowa kwestia
             speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
             speech.classList.add('show');
 
-            // Duży skok + obrót
             ogorczak.style.transition = 'transform 0.45s cubic-bezier(0.2, 1.4, 0.3, 1)';
-            ogorczak.style.transform = `translateX(${posX}px) translateY(-70px) rotate(${dir*360}deg) scale(1.25)`;
+            ogorczak.style.transform = `translateX(${posX}px) translateY(-75px) rotate(${dir*360}deg) scale(1.3)`;
 
-            // Serduszka
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 9; i++) {
                 const heart = document.createElement('span');
-                heart.textContent = ['💚','❤️','💗','🥒'][Math.floor(Math.random()*4)];
-                heart.style.cssText = `
-                    position:absolute; left:${(Math.random()*80-40)}px; top:0;
-                    font-size:${14+Math.random()*14}px; opacity:1;
-                    transition: all 1.1s ease-out; pointer-events:none;
-                `;
+                heart.textContent = ['💚','❤️','💗','🥒','🍪'][Math.floor(Math.random()*5)];
+                heart.style.cssText = `position:absolute;left:${(Math.random()*90-45)}px;top:0;font-size:${15+Math.random()*14}px;opacity:1;transition:all 1.15s ease-out;pointer-events:none;`;
                 clickHearts.appendChild(heart);
-                setTimeout(() => {
-                    heart.style.transform = `translateY(-90px) scale(1.4)`;
-                    heart.style.opacity = '0';
-                }, 20);
-                setTimeout(() => heart.remove(), 1200);
+                setTimeout(() => { heart.style.transform = 'translateY(-95px) scale(1.45)'; heart.style.opacity = '0'; }, 20);
+                setTimeout(() => heart.remove(), 1300);
             }
-
-            // Animacja skoku wraca szybciej, tekst zostaje dłużej
-            setTimeout(() => {
-                ogorczak.style.transition = 'transform 0.3s ease';
-                ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
-            }, 700);
-
-            setTimeout(() => {
-                speech.classList.remove('show');
-                isBusy = false;
-            }, 2600);
-        });
-
-        // Reakcja na ruch myszki – lekko patrzy w stronę kursora
-        document.addEventListener('mousemove', (e) => {
-            if (isBusy) return;
-            const rect = box.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const dx = e.clientX - centerX;
-            if (Math.abs(dx) > 40) {
-                dir = dx > 0 ? 1 : -1;
-            }
-        });
-
-        // Sam z siebie zaczepia Marcina
-        function tease() {
-            if (isBusy) return;
-            isBusy = true;
-
-            speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-            speech.classList.add('show');
-
-            // Mały podskok z zaczepki
-            ogorczak.style.transition = 'transform 0.35s cubic-bezier(0.2, 1.6, 0.3, 1)';
-            ogorczak.style.transform = `translateX(${posX}px) translateY(-28px) scaleX(${dir}) scale(1.1)`;
 
             setTimeout(() => {
                 ogorczak.style.transition = 'transform 0.25s ease';
                 ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
-                setTimeout(() => {
-                    speech.classList.remove('show');
-                    isBusy = false;
-                }, 1800);
-            }, 400);
+            }, 450);
+
+            // Szybkie odblokowanie = można molestować jedno po drugim
+            setTimeout(() => {
+                isBusy = false;
+            }, 380);
+
+            // Tekst znika trochę później
+            setTimeout(() => {
+                speech.classList.remove('show');
+            }, 2200);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isBusy) return;
+            const rect = box.getBoundingClientRect();
+            const dx = e.clientX - (rect.left + rect.width / 2);
+            if (Math.abs(dx) > 35) dir = dx > 0 ? 1 : -1;
+        });
+
+        function tease() {
+            if (isBusy) return;
+            isBusy = true;
+            speech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            speech.classList.add('show');
+            ogorczak.style.transition = 'transform 0.35s cubic-bezier(0.2, 1.6, 0.3, 1)';
+            ogorczak.style.transform = `translateX(${posX}px) translateY(-30px) scaleX(${dir}) scale(1.12)`;
+            setTimeout(() => {
+                ogorczak.style.transition = 'transform 0.2s ease';
+                ogorczak.style.transform = `translateX(${posX}px) translateY(0) scaleX(${dir})`;
+                isBusy = false;
+                setTimeout(() => speech.classList.remove('show'), 1600);
+            }, 350);
+        }
+        setInterval(() => { if (Math.random() > 0.32) tease(); }, 6000);
+        setInterval(() => { if (Math.random() > 0.65) tease(); }, 11000);
+
+        // Muzyka generowana (bez pliku mp3)
+        const musicBtn = document.getElementById('musicBtn');
+        let musicOn = false;
+        let audioCtx = null;
+        let masterGain = null;
+        let oscillators = [];
+
+        function startAmbient() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0.07;
+            masterGain.connect(audioCtx.destination);
+
+            // Delikatne pady (akord C-major-ish soft)
+            const notes = [130.81, 164.81, 196.00, 261.63]; // C3 E3 G3 C4
+            notes.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+                osc.frequency.value = freq;
+                g.gain.value = 0.15;
+                osc.connect(g);
+                g.connect(masterGain);
+                osc.start();
+                oscillators.push({ osc, g });
+            });
+
+            // Lekkie "oddychanie" głośności
+            function breathe() {
+                if (!musicOn || !masterGain) return;
+                const now = audioCtx.currentTime;
+                masterGain.gain.cancelScheduledValues(now);
+                masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+                masterGain.gain.linearRampToValueAtTime(0.05 + Math.random() * 0.04, now + 3 + Math.random() * 2);
+                setTimeout(breathe, 4000 + Math.random() * 3000);
+            }
+            breathe();
         }
 
-        // Częstsze zaczepianie
-        setInterval(() => {
-            if (Math.random() > 0.35) tease();
-        }, 6500);
-
-        // Czasem jeszcze częściej
-        setInterval(() => {
-            if (Math.random() > 0.7) tease();
-        }, 12000);
-
-        // ===== MUZYKA =====
-        const musicBtn = document.getElementById('musicBtn');
-        const bgMusic = document.getElementById('bgMusic');
-        let musicOn = false;
+        function stopAmbient() {
+            if (!audioCtx) return;
+            oscillators.forEach(({ osc }) => { try { osc.stop(); } catch(e) {} });
+            oscillators = [];
+            audioCtx.close().catch(()=>{});
+            audioCtx = null;
+            masterGain = null;
+        }
 
         musicBtn.addEventListener('click', () => {
             if (musicOn) {
-                bgMusic.pause();
+                stopAmbient();
                 musicBtn.textContent = '♪';
                 musicBtn.classList.remove('playing');
             } else {
-                bgMusic.play().catch(() => {
-                    // przeglądarka blokuje autoplay – nic strasznego
-                });
+                startAmbient();
                 musicBtn.textContent = '♫';
                 musicBtn.classList.add('playing');
             }
             musicOn = !musicOn;
         });
 
-        // ===== Serduszka w tle =====
+        // Serduszka
         const heartsContainer = document.getElementById('hearts');
-        const heartSymbols = ['💚', '❤️', '🤍'];
-
         function spawnHeart() {
             const heart = document.createElement('span');
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            heart.style.left = Math.random() * 100 + '%';
-            heart.style.animationDuration = (11 + Math.random() * 6) + 's';
-            heart.style.fontSize = (10 + Math.random() * 8) + 'px';
+            heart.textContent = ['💚','❤️','🤍','🍪'][Math.floor(Math.random()*4)];
+            heart.style.left = Math.random()*100 + '%';
+            heart.style.animationDuration = (10 + Math.random()*7) + 's';
+            heart.style.fontSize = (11 + Math.random()*9) + 'px';
             heartsContainer.appendChild(heart);
             setTimeout(() => heart.remove(), 18000);
         }
-
-        setInterval(spawnHeart, 2200);
-        for (let i = 0; i < 4; i++) setTimeout(spawnHeart, i * 600);
+        setInterval(spawnHeart, 2000);
+        for (let i = 0; i < 5; i++) setTimeout(spawnHeart, i * 450);
     </script>
 </body>
 </html>
